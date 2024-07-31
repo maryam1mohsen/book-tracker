@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <h1>Create a new account!</h1>
-    <form action="/auth/sign-up" method="POST">
-
-      <!-- Username -->
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" />
-
-      <!-- Password -->
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" />
-
-      <!-- Confirm -->
-      <label for="confirmPassword">Confirm Password:</label>
-      <input type="password" name="confirmPassword" id="confirmPassword" />
-
-      <button type="submit">Sign up</button>
-    </form>
-  </body>
+<html>
+<head>
+  <title>Sign Up</title>
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>Sign Up</h1>
+  <form action="/auth/sign-up" method="POST">
+    <div>
+      <label for="username">Username</label>
+      <input type="text" name="username" required>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" name="email" required>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" required>
+    </div>
+    <div>
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" name="confirmPassword" required>
+    </div>
+    <div>
+      <label for="bio">Bio</label>
+      <textarea name="bio" required></textarea>
+    </div>
+    <div>
+      <label for="profilePic">Profile Picture URL</label>
+      <input type="text" name="profilePic" required>
+    </div>
+    <button type="submit">Sign Up</button>
+  </form>
+  <%- include('../partials/_messages') %>
+</body>
 </html>

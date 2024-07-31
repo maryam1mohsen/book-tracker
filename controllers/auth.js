@@ -1,8 +1,6 @@
-
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/user.js');
-
 const router = express.Router();
 
 // Register
@@ -11,32 +9,64 @@ router.get('/sign-up', (req, res, next) => {
 });
 
 router.post('/sign-up', async (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
+  const { username, email, password, confirmPassword, bio, profilePic } = req.body;
 
   try {
-    const existingUser = await User.findOne({
-      username,
-    });
+    const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      return res.send('Ooops Something went wrong');
+      req.flash('error_msg', 'Username already exists');
+      return res.redirect('/auth/sign-up');
     }
 
     if (password !== confirmPassword) {
-      return res.send('Password and Confirm Password do not match');
+      req.flash('error_msg', 'Passwords do not match');
+      return res.redirect('/auth/sign-up');
     }
 
     const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS));
 
-
-    const payload = {
+    const newUser = new User({
       username,
+      email,
       password: hashedPassword,
-    };
+      bio,
+      profilePic
+    });
+    
+    await newUser.save();
 
-    const user = await User.create(payload);
+    req.flash('success_msg', 'You are now registered and can log in');
+    res.redirect('/auth/sign-in');
+  } catch (err) {
+    console.error(err);
+    req.flash('error_msg', 'Something went wrong');
+    res.redirect('/auth/sign-up');
+  }
+});
+
+// Login
+router.get('/sign-in', (req, res, next) => {
+  res.render('auth/sign-in.ejs');
+});
+
+router.post('/sign-in', async (req, res, next) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      req.flash('error_msg', 'Invalid username or password');
+      return res.redirect('/auth/sign-in');
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      req.flash('error_msg', 'Invalid username or password');
+      return res.redirect('/auth/sign-in');
+    }
 
     req.session.user = {
       username: user.username,
@@ -46,44 +76,11 @@ router.post('/sign-up', async (req, res, next) => {
     req.session.save(() => {
       res.redirect('/');
     });
-  } catch (error) {
-    throw new Error('Something went wrong');
+  } catch (err) {
+    console.error(err);
+    req.flash('error_msg', 'Something went wrong');
+    res.redirect('/auth/sign-in');
   }
-});
-
-// Login
-
-router.get('/sign-in', (req, res, next) => {
-  res.render('auth/sign-in.ejs');
-});
-
-router.post('/sign-in', async (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
-  const existingUser = await User.findOne({
-    username,
-  });
-
-  if (!existingUser) {
-    return res.send('Invalid username or password');
-  }
-
-  const validPassword = await bcrypt.compare(password, existingUser.password);
-
-  if (!validPassword) {
-    res.send('Invalid username or password');
-  }
-
-  req.session.user = {
-    username: existingUser.username,
-    _id: existingUser._id,
-  };
-
-
-  req.session.save(() => {
-    res.redirect('/');
-  });
 });
 
 // Logout

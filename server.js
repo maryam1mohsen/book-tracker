@@ -7,18 +7,18 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const isSignedIn = require('./middleware/is-signed-in');
 const passUserToView = require('./middleware/pass-user-to-view');
 
-
 // Controller imports
 const authCtrl = require('./controllers/auth');
+const applicationCtrl = require('./controllers/applications'); // Added applications controller
 
 const app = express();
 
 // Set the port from environment variable or default to 3000
-const port = process.env.PORT ? process.env.PORT : '3001';
+const port = process.env.PORT ? process.env.PORT : '3000';
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -45,10 +45,10 @@ app.use(
   })
 );
 
-
 app.use(passUserToView);
 // ROUTES
 app.use('/auth', authCtrl);
+app.use('/applications', applicationCtrl); // Added applications routes
 
 app.get('/vip-lounge', isSignedIn, (req, res, next) => {
   res.send(`Welcome to the party ${req.session.user.username}.`);
@@ -56,10 +56,8 @@ app.get('/vip-lounge', isSignedIn, (req, res, next) => {
 
 app.get('/', (req, res, next) => {
   //  const user = req.session.user;
-
-   res.render('index.ejs');
+  res.render('index.ejs');
 });
-
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);

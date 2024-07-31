@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Books</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>All Books</h1>
+  <p><a href="/applications/new">Add New Book</a></p>
+  <ul>
+    <% books.forEach(book => { %>
+      <li>
+        <a href="/applications/<%= book._id %>"><%= book.title %></a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
