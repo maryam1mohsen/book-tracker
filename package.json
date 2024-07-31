@@ -1,10 +1,25 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-mongo": "^5.1.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.5.1",
     "morgan": "^1.10.0"
-  }
+  },
+  "name": "book-tracker",
+  "version": "1.0.0",
+  "description": "**Project Overview:** The project aims to develop a book tracking website where users can log books they have read, rate them, and provide reviews. The website will offer a user-friendly interface and various features to enhance the user experience, such as a searchable book database.",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
