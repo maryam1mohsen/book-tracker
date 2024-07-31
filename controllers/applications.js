@@ -1,72 +1,101 @@
 const express = require('express');
-const Book = require('../models/book'); // Assuming the Book model is in ../models/book.js
 const router = express.Router();
+const User = require('../models/user');
+const Book = require('../models/book');
+const List = require('../models/list');
 
-// Display all books
+const VALID_STATUSES = ['To Read', 'Reading', 'Completed'];
+
+// List all books in user's lists
 router.get('/', async (req, res) => {
   try {
-    const books = await Book.find();
-    res.render('applications/index.ejs', { books });
-  } catch (err) {
-    res.status(500).send('Server Error');
+    const currentUser = await User.findById(req.session.user._id).populate('lists');
+    const lists = currentUser.lists;
+
+    res.render('applications/index.ejs', { lists });
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
   }
 });
 
-// Show form to create a new book
-router.get('/new', (req, res) => {
-  res.render('applications/new.ejs');
+// Render new list form
+router.get('/new', async (req, res) => {
+  res.render('applications/new.ejs', { statusOptions: VALID_STATUSES });
 });
 
-// Add a new book
-router.post('/add', async (req, res) => {
+// Create new list
+router.post('/', async (req, res, next) => {
   try {
-    const { title, author, genre, description, coverImage } = req.body;
-    const newBook = new Book({ title, author, genre, description, coverImage });
-    await newBook.save();
-    res.redirect('/applications');
+    const currentUser = await User.findById(req.session.user._id);
+    const newList = new List(req.body);
+
+    currentUser.lists.push(newList);
+    await newList.save();
+    await currentUser.save();
+
+    res.redirect(`/users/${currentUser._id}/applications`);
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error(err);
+    res.redirect('/');
   }
 });
 
-// Show a single book
-router.get('/:id', async (req, res) => {
+// Show specific list
+router.get('/:listId', async (req, res, next) => {
   try {
-    const book = await Book.findById(req.params.id);
-    res.render('applications/show.ejs', { book });
+    const currentUser = await User.findById(req.session.user._id).populate('lists');
+    const list = currentUser.lists.id(req.params.listId);
+
+    res.render('applications/show.ejs', { list });
   } catch (err) {
-    res.status(500).send('Server Error');
+    console.error(err);
+    res.redirect('/');
   }
 });
 
-// Show form to edit a book
-router.get('/:id/edit', async (req, res) => {
+// Delete specific list
+router.delete('/:listId', async (req, res, next) => {
   try {
-    const book = await Book.findById(req.params.id);
-    res.render('applications/edit.ejs', { book });
-  } catch (err) {
-    res.status(500).send('Server Error');
+    const currentUser = await User.findById(req.session.user._id);
+    const list = currentUser.lists.id(req.params.listId);
+
+    list.deleteOne();
+    await currentUser.save();
+
+    res.redirect(`/users/${currentUser._id}/applications`);
+  } catch (error) {
+    console.log(error);
+    res.redirect('/');
   }
 });
 
-// Update a book
-router.post('/:id/edit', async (req, res) => {
+// Render edit list form
+router.get('/:listId/edit', async (req, res, next) => {
   try {
-    const { title, author, genre, description, coverImage } = req.body;
-    await Book.findByIdAndUpdate(req.params.id, { title, author, genre, description, coverImage });
-    res.redirect(`/applications/${req.params.id}`);
-  } catch (err) {
-    res.status(500).send('Server Error');
+    const currentUser = await User.findById(req.session.user._id);
+    const list = currentUser.lists.id(req.params.listId);
+
+    res.render('applications/edit.ejs', { list, statusOptions: VALID_STATUSES });
+  } catch (error) {
+    console.error(error);
+    res.redirect('/');
   }
 });
 
-// Delete a book
-router.post('/:id/delete', async (req, res) => {
+// Update specific list
+router.put('/:listId', async (req, res, next) => {
   try {
-    await Book.findByIdAndDelete(req.params.id);
-    res.redirect('/applications');
-  } catch (err) {
-    res.status(500).send('Server Error');
+    const currentUser = await User.findById(req.session.user._id);
+    const list = currentUser.lists.id(req.params.listId);
+
+    list.set(req.body);
+    await currentUser.save();
+
+    res.redirect(`/users/${currentUser._id}/applications/${req.params.listId}`);
+  } catch (error) {
+    console.error(error);
+    res.redirect('/');
   }
 });
 

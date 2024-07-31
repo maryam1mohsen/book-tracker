@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-
 dotenv.config();
 
 const express = require('express');
@@ -13,12 +12,12 @@ const passUserToView = require('./middleware/pass-user-to-view');
 
 // Controller imports
 const authCtrl = require('./controllers/auth');
-const applicationCtrl = require('./controllers/applications'); // Added applications controller
+const applicationCtrl = require('./controllers/applications');
 
 const app = express();
 
 // Set the port from environment variable or default to 3000
-const port = process.env.PORT ? process.env.PORT : '3000';
+const port = process.env.PORT ? process.env.PORT : '3001';
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -46,16 +45,17 @@ app.use(
 );
 
 app.use(passUserToView);
+app.use(express.static('public'));
+
 // ROUTES
 app.use('/auth', authCtrl);
-app.use('/applications', applicationCtrl); // Added applications routes
+app.use('/users/:userId/applications', isSignedIn, applicationCtrl);
 
-app.get('/vip-lounge', isSignedIn, (req, res, next) => {
-  res.send(`Welcome to the party ${req.session.user.username}.`);
-});
+// app.get('/vip-lounge', isSignedIn, (req, res, next) => {
+//   res.send(`Welcome to the party ${req.session.user.username}.`);
+// });
 
 app.get('/', (req, res, next) => {
-  //  const user = req.session.user;
   res.render('index.ejs');
 });
 
