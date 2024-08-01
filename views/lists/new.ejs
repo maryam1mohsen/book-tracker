@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>Add a New List</h1>
+  <form action="/lists" method="POST">
+    <label for="name">List Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="to-read">To Read</option>
+      <option value="reading">Reading</option>
+      <option value="completed">Completed</option>
+    </select>
+    
+    <button type="submit">Add List</button>
+  </form>
+  <a href="/lists">Back to Lists</a>
+  
+
+</body>
+</html>

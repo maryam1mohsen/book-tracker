@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>Edit List</h1>
+  <form action="/lists/<%= list._id %>?_method=PUT" method="POST">
+    <label for="name">List Name:</label>
+    <input type="text" id="name" name="name" value="<%= list.name %>" required>
+    
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="to-read" <%= list.status === 'to-read' ? 'selected' : '' %>>To Read</option>
+      <option value="reading" <%= list.status === 'reading' ? 'selected' : '' %>>Reading</option>
+      <option value="completed" <%= list.status === 'completed' ? 'selected' : '' %>>Completed</option>
+    </select>
+    
+    <button type="submit">Update List</button>
+  </form>
+  <a href="/lists/<%= list._id %>">Cancel</a>
+  
+</body>
+</html>

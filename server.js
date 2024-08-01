@@ -1,25 +1,28 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 const express = require('express');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const isSignedIn = require('./middleware/is-signed-in');
 const passUserToView = require('./middleware/pass-user-to-view');
 
+// Load environment variables from .env file
+dotenv.config();
+
 // Controller imports
 const authCtrl = require('./controllers/auth');
-const applicationCtrl = require('./controllers/applications');
+const listCtrl = require('./controllers/lists');
+const bookCtrl = require('./controllers/books');
+const userCtrl = require('./controllers/users'); // Add this line
 
 const app = express();
 
-// Set the port from environment variable or default to 3000
-const port = process.env.PORT ? process.env.PORT : '3001';
+// Set the port from environment variable or default to 3001
+const port = process.env.PORT || 3001;
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
@@ -33,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 // Morgan for logging HTTP requests
 app.use(morgan('dev'));
+// Session middleware
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -44,16 +48,21 @@ app.use(
   })
 );
 
-app.use(passUserToView);
+// Serve static files from the public directory
 app.use(express.static('public'));
+
+// Custom middleware
+app.use(passUserToView);
 
 // ROUTES
 app.use('/auth', authCtrl);
-app.use('/users/:userId/applications', isSignedIn, applicationCtrl);
+app.use('/lists', listCtrl);
+app.use('/books', bookCtrl);
+app.use('/users', userCtrl);
 
-// app.get('/vip-lounge', isSignedIn, (req, res, next) => {
-//   res.send(`Welcome to the party ${req.session.user.username}.`);
-// });
+app.get('/vip-lounge', isSignedIn, (req, res, next) => {
+  res.send(`Welcome to the party ${req.session.user.username}.`);
+});
 
 app.get('/', (req, res, next) => {
   res.render('index.ejs');

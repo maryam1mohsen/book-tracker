@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+<h1>Your Lists</h1>
+<ul>
+  <% lists.forEach(list => { %>
+    <li>
+      <a href="/lists/<%= list._id %>"><%= list.name %></a>
+      (<%= list.status %>)
+    </li>
+  <% }) %>
+</ul>
+<a href="/lists/new">Add a new list</a>
+<a href="/">Back to Home</a>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1>Edit Profile</h1>
+  <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="<%= user.username %>" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="<%= user.email %>" required>
+    
+    <label for="bio">Bio:</label>
+    <textarea id="bio" name="bio"><%= user.bio %></textarea>
+    
+    <label for="profilePic">Profile Picture URL:</label>
+    <input type="text" id="profilePic" name="profilePic" value="<%= user.profilePic %>">
+    
+    <button type="submit">Save Changes</button>
+  </form>
+</body>
+</html>

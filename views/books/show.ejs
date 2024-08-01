@@ -11,10 +11,10 @@
   <p><strong>Genre:</strong> <%= book.genre %></p>
   <p><strong>Description:</strong> <%= book.description %></p>
   <img src="<%= book.coverImage %>" alt="Cover Image" style="max-width: 200px;">
-  <p><a href="/applications/<%= book._id %>/edit">Edit</a></p>
-  <form action="/applications/<%= book._id %>/delete" method="POST">
+  <p><a href="/books/<%= book._id %>/edit">Edit</a></p>
+  <form action="/books/<%= book._id %>/delete" method="POST">
     <button type="submit">Delete</button>
   </form>
-  <a href="/applications">Back to All Books</a>
+  <a href="/books">Back to All Books</a>
 </body>
 </html>

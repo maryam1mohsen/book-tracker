@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= user.username %>'s Profile</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <%- include('../partials/_navbar') %>
+  <h1><%= user.username %>'s Profile</h1>
+  <p><strong>Email:</strong> <%= user.email %></p>
+  <p><strong>Bio:</strong> <%= user.bio %></p>
+  <p><img src="<%= user.profilePic %>" alt="<%= user.username %>'s Profile Picture"></p>
+  <a href="/users/<%= user._id %>/edit">Edit Profile</a>
+</body>
+</html>

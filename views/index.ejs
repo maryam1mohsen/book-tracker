@@ -7,15 +7,52 @@
     <link rel="stylesheet" href="/styles/style.css">
   </head>
   <body>
-  
-    <% if (user) { %>
-      <a href="/auth/sign-out">Sign out</a>
-      <h1>Welcome to Book Tracker, <%= user.username %>!</h1>
+    <header>
+      <nav>
+        <ul>
+          <% if (user) { %>
+            <li><a href="/">Home</a></li>
+            <li><a href="/lists">My Lists</a></li>
+            <li><a href="/books">Browse Books</a></li>
+            <li><a href="/auth/sign-out">Sign out</a></li>
+          <% } else { %>
+            <li><a href="/">Home</a></li>
+            <li><a href="/auth/sign-up">Sign up</a></li>
+            <li><a href="/auth/sign-in">Sign in</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <% if (user) { %>
+        <h1>Welcome to Book Tracker, <%= user.username %>!</h1>
+        <section>
+          <h2>Your Reading Lists</h2>
+          <a href="/lists/new" class="btn">Create New List</a>
+          <!-- Display user's lists -->
+          <% if (user.lists && user.lists.length > 0) { %>
+            <ul>
+              <% user.lists.forEach(list => { %>
+                <li>
+                  <a href="/lists/<%= list._id %>"><%= list.name %> (<%= list.status %>)</a>
+                </li>
+              <% }); %>
+            </ul>
+          <% } else { %>
+            <p>You don't have any lists yet. Start by creating one!</p>
+          <% } %>
+        </section>
       <% } else { %>
-      <h1>Welcome to Book Tracker, guest.</h1>
-      <p>
-        <a href="/auth/sign-up">Sign up</a> or <a href="/auth/sign-in">sign in</a>.
-      </p>
+        <h1>Welcome to Book Tracker, guest.</h1>
+        <p>
+          <a href="/auth/sign-up">Sign up</a> or <a href="/auth/sign-in">sign in</a> to start tracking your books.
+        </p>
       <% } %>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Book Tracker. All rights reserved.</p>
+    </footer>
   </body>
 </html>

@@ -7,11 +7,11 @@
 <body>
   <%- include('../partials/_navbar') %>
   <h1>All Books</h1>
-  <p><a href="/applications/new">Add New Book</a></p>
+  <p><a href="/books/new">Add New Book</a></p>
   <ul>
     <% books.forEach(book => { %>
       <li>
-        <a href="/applications/<%= book._id %>"><%= book.title %></a>
+        <a href="/books/<%= book._id %>"><%= book.title %></a>
       </li>
     <% }) %>
   </ul>
