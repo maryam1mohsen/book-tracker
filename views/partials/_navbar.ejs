@@ -1,14 +1,19 @@
-<nav>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/books">Books</a></li>
-    <li><a href="/lists">Lists</a></li>
-    <% if (user) { %>
-      <li><a href="/users/<%= user._id %>/profile">Profile</a></li>
-      <li><a href="/auth/sign-out">Sign Out</a></li>
-    <% } else { %>
-      <li><a href="/auth/sign-in">Sign In</a></li>
-      <li><a href="/auth/sign-up">Sign Up</a></li>
-    <% } %>
-  </ul>
-</nav>
+<header>
+  <img src="/images/book-logo.png" alt="Book Tracker Logo">
+  <nav>
+    <ul>
+      <% if (user) { %>
+        <li><a href="/">Home</a></li>
+        <li><a href="/lists">My Lists</a></li>
+        <li><a href="/books">Browse Books</a></li>
+        <li><a href="/users/<%= user._id %>/profile">Profile</a></li> <!-- Profile link -->
+        <li><a href="/auth/sign-out">Sign out</a></li>
+      <% } else { %>
+        <li><a href="/">Home</a></li>
+        <li><a href="/auth/sign-up">Sign up</a></li>
+        <li><a href="/auth/sign-in">Sign in</a></li>
+      <% } %>
+    </ul>
+  </nav>
+  
+</header>

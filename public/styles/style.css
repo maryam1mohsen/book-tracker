@@ -1,131 +1,191 @@
 /* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body Styles */
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
-    padding: 20px;
-  }
-  
-  /* Navbar Styles */
-  nav {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+  padding: 0 20px; /* Add padding to body to prevent content from touching the edges */
+}
+
+/* Header Styles */
+header {
+  background-color: #652646;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  margin-left: -20px; /* Extend header to cover body padding */
+  margin-right: -20px; /* Extend header to cover body padding */
+  position: relative; /* Ensure it's not affected by the body padding */
+  left: 0;
+  right: 0;
+}
+
+/* Ensure header image is centered and responsive */
+header img {
+  width: 150px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* Navbar Styles */
+nav {
+  background-color: #652646;
+  color: #fff;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin: 0; /* Remove margin to prevent shifting */
+}
+
+nav ul li {
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+nav ul li a:hover {
+  color: #DC87A4;
+}
+
+/* Main Container */
+.container {
+  max-width: 1200px;
+  margin: 20px auto; /* Center the container */
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: #BE5288;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #DC87A4;
+}
+
+/* Buttons and Links */
+button,
+a.button {
+  background-color: #BE5288;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover,
+a.button:hover {
+  background-color: #DC87A4;
+}
+
+/* Alerts */
+.alert {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Book List */
+ul {
+  list-style: none;
+  padding: 0; /* Remove padding from ul */
+}
+
+ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul li a:hover {
+  color: #DC87A4;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #652646;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0; /* Ensure it spans the full width */
+  margin-left: -20px; /* Extend footer to cover body padding */
+  margin-right: -20px; /* Extend footer to cover body padding */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 15px;
-  }
-  
-  nav ul li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  nav ul li a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Main Container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Forms */
-  form {
-    display: flex;
     flex-direction: column;
   }
-  
-  form div {
-    margin-bottom: 15px;
+
+  nav ul li {
+    margin-bottom: 10px;
   }
-  
-  form label {
-    font-weight: bold;
-  }
-  
-  form input,
-  form textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  form button {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  form button:hover {
-    background-color: #555;
-  }
-  
-  /* Alerts */
-  .alert {
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-  }
-  
-  .alert-success {
-    background-color: #d4edda;
-    color: #155724;
-  }
-  
-  .alert-error {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-  
-  /* Book List */
-  ul {
-    list-style: none;
-  }
-  
-  ul li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  ul li a {
-    text-decoration: none;
-    color: #333;
-  }
-  
-  ul li a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    nav ul li {
-      display: block;
-      margin-bottom: 10px;
-    }
-  }
-  
+}
