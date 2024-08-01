@@ -12,8 +12,7 @@ I built this app to streamline the process of managing my reading habits. I want
 
 ## Getting Started
 
-- **Deployed App:** [Book Tracker](https://your-deployed-app-url.com)
-- **Planning Materials:** [Link to Planning Materials](https://link-to-planning-materials.com)
+- **Deployed App:** [Book Tracker](https://booktracker-2b30af1a8ac9.herokuapp.com/)
 
 ## What Went Well
 
